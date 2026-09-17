@@ -1,0 +1,179 @@
+/* Projects 頁首 */
+.projects-page h1 {
+  max-width: 580px;
+  font-size: clamp(34px, 5vw, 44px);
+}
+
+.projects-intro {
+  max-width: 520px;
+  margin-bottom: 12px;
+}
+
+.projects-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* 桌面兩張一排；每張獨立展開 */
+.project-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 48px 28px;
+  margin-top: 36px;
+}
+
+.project-entry {
+  min-width: 0;
+}
+
+/* 正方形圖片留位 */
+.project-image {
+  position: relative;
+  aspect-ratio: 1;
+  margin-bottom: 22px;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--map-bg);
+}
+
+/* 只有圖片變淡，不影響文字 */
+.project-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+}
+
+/* 暖白薄霧，讓底部的小字保持清晰 */
+.project-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    transparent 55%,
+    var(--map-bg) 100%
+  );
+  pointer-events: none;
+}
+
+.project-image span {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 18px;
+  z-index: 2;
+  color: var(--text);
+  font-family: Georgia, serif;
+  font-size: 18px;
+}
+
+/* 標題與內容 */
+.project-category {
+  margin: 0 0 10px;
+  color: var(--accent);
+  font-size: 11px;
+  letter-spacing: 1.2px;
+}
+
+.project-entry h2 {
+  margin: 0 0 12px;
+  font-family: Georgia, serif;
+  font-size: clamp(26px, 3vw, 32px);
+  font-weight: 400;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+}
+
+.project-summary {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.project-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 18px 0;
+  padding: 0;
+  list-style: none;
+  color: var(--tag-text);
+  font-size: 12px;
+}
+
+.project-skills li {
+  padding-left: 8px;
+  border-left: 2px solid var(--accent-soft);
+}
+
+/* 保留研究構想的展開功能 */
+.project-concept {
+  border-top: 1px solid var(--border);
+}
+
+.project-concept summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  color: var(--accent);
+  font-size: 13px;
+  list-style: none;
+  cursor: pointer;
+}
+
+.project-concept summary::-webkit-details-marker {
+  display: none;
+}
+
+.project-concept summary::after {
+  content: "+";
+  font-size: 20px;
+}
+
+.project-concept[open] summary::after {
+  content: "−";
+}
+
+.project-concept summary:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.project-concept summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.project-concept > div {
+  padding: 16px;
+  border-left: 2px solid var(--accent-soft);
+  background: var(--map-bg);
+}
+
+.project-concept p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.project-concept p + p {
+  margin-top: 12px;
+}
+
+/* 手機改成一張一行 */
+@media (max-width: 600px) {
+  .project-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+  }
+}

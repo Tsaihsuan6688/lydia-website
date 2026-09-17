@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Journey | Lydia Huang</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-name" href="index.html">Lydia Huang</a>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="journey.html">Journey</a>
+      <a href="projects.html">Projects</a>
+    </nav>
+  </header>
+
+  <main>
+    <p class="eyebrow">EXPERIENCE & EXPLORATION</p>
+    <h1>My journey.</h1>
+    <p>From international trade to semiconductor equipment, and now USC.</p>
+    <p id="journey-progress" aria-live="polite">
+  Explored 0 of 4 stops
+</p>
+    <div class="journey-map">
+        <svg class="map-routes" aria-hidden="true">
+  <path id="journey-route"></path>
+  <circle
+    id="journey-marker"
+    r="6"
+    fill="#68764c"
+    stroke="#fffdf8"
+    stroke-width="3"
+    visibility="hidden"
+  ></circle>
+</svg>
+<button type="button" class="map-node node-university">
+  Before the job titles
+  <span>Languages, arts &amp; curiosity</span>
+</button>  
+<button type="button" class="map-node node-trade">
+    International trade
+    <span>Double Nice · 2020–2021</span>
+  </button>
+
+  <button type="button" class="map-node node-equipment">
+    Semiconductor equipment
+    <span>Shuz Tung · 2021–2024</span>
+  </button>
+<div class="equipment-branches">
+  <button type="button" data-section="1">
+    Order-to-cash coordination
+  </button>
+  <button type="button" data-section="2">
+    Project delivery coordination
+  </button>
+  <button type="button" data-section="3">
+    Operational reporting
+  </button>
+</div>
+  <button type="button" class="map-node node-study">
+    Study & exploration
+    <span>USC · Present</span>
+  </button>
+  </div>
+<div id="journey-skills" class="skill-tags"></div>
+    <div id="journey-detail">
+  <p>Click a stop to explore my journey.</p>
+</div>
+  </main>
+<footer class="site-footer">
+  <p>Let’s connect.</p>
+  <a href="mailto:tsaihsua@marshall.usc.edu">Email me ↗</a>
+</footer>
+  <script src="journey.js"></script>
+</body>
+</html>

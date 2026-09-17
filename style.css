@@ -1,0 +1,349 @@
+/* 共用配色：霧藍作為互動重點，閱讀區維持中性色。 */
+:root {
+  --text: #333638;
+  --muted: #73716c;
+  --surface: #fffdf9;
+  --border: #dedbd3;
+  --map-bg: #faf8f3;
+  --map-dot: #ded9ce;
+
+  --accent: #506e8b;
+  --accent-soft: #8b9dad;
+  --route: #9ba9b4;
+
+  --selected-bg: #eef2f4;
+  --hover-bg: #f4f3ef;
+  --tag-bg: #f5f3ee;
+  --tag-text: #595b5b;
+}
+
+body {
+  max-width: 720px;
+  margin: 80px auto;
+  padding: 0 24px;
+  font-family: Arial, sans-serif;
+  color: var(--text);
+  line-height: 1.7;
+}
+
+h1 {
+  font-family: Georgia, serif;
+  font-size: 48px;
+  font-weight: 400;
+  margin: 12px 0 24px;
+  line-height: 1.2;
+}
+.intro {
+  max-width: 620px;
+}
+
+.eyebrow {
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: var(--muted);
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding-bottom: 20px;
+  margin-bottom: 48px;
+  border-bottom: 1px solid var(--border);
+}
+.site-header a {
+  color: var(--text);
+  text-decoration: none;
+}
+.site-name {
+  font-family: Georgia, serif;
+}
+.site-header nav {
+  display: flex;
+  gap: 24px;
+}
+/* 四站地圖：大學左、貿易右、旭東左、USC 右 */
+.journey-map {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas:
+    "university trade"
+    "equipment study";
+  align-items: start;
+  gap: 48px 40px;
+  margin-top: 32px;
+  padding: 36px;
+  background-color: var(--map-bg);
+  background-image: radial-gradient(var(--map-dot) 0.8px, transparent 0.8px);
+  background-size: 20px 20px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+
+.map-node {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 90%;
+  min-width: 0;
+  margin: 0;
+  padding: 28px 20px;
+  align-self: start;
+  justify-self: start;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background-color: var(--surface);
+  color: var(--text);
+  font-family: Georgia, serif;
+  font-size: 21px;
+  line-height: 1.35;
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.map-node span {
+  display: block;
+  margin-top: 12px;
+  color: var(--muted);
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.node-university { grid-area: university; }
+.node-trade { grid-area: trade; }
+.node-equipment { grid-area: equipment; }
+.node-study { grid-area: study; }
+
+.node-trade,
+.node-study {
+  justify-self: end;
+  margin-top: 72px;
+}
+
+.map-node:hover {
+  background-color: var(--hover-bg);
+  border-color: var(--accent-soft);
+}
+
+.map-node.is-selected {
+  background-color: var(--selected-bg);
+  border-color: var(--accent);
+}
+
+.map-node:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+/* 10px 圓點中心對齊 JS 的卡片外 14px 位置。
+   absolute 定位以卡片內框為基準，因此需計入 1px 邊框。 */
+.map-node::before {
+  content: "";
+  position: absolute;
+  box-sizing: border-box;
+  top: calc(50% - 5px);
+  right: -20px;
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--accent-soft);
+  border-radius: 50%;
+  background-color: var(--map-bg);
+  box-shadow: 0 0 0 4px var(--map-bg);
+  pointer-events: none;
+}
+
+.node-trade::before,
+.node-study::before {
+  right: auto;
+  left: -20px;
+}
+
+/* 路線及移動標記由 journey.js 計算位置 */
+.map-routes {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.map-routes path {
+  fill: none;
+  stroke: var(--route);
+  stroke-width: 1.2;
+  stroke-dasharray: 5 8;
+  stroke-linecap: butt;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+/* 只有移動標記填滿；各站的 ::before 維持空心。
+   此規則也會取代 SVG 上原有的綠色 fill / stroke 屬性。 */
+#journey-marker {
+  fill: var(--accent);
+  stroke: var(--map-bg);
+  stroke-width: 3;
+}
+
+/* 舊 HTML 仍可能保留此容器，暫時隱藏以免參與 Grid 排版 */
+.equipment-branches {
+  display: none;
+}
+
+/* 技能標籤 */
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-tags:not(:empty) {
+  margin-top: 24px;
+}
+
+.skill-tags span,
+.skill-tags button {
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--tag-text);
+  background-color: var(--tag-bg);
+  overflow-wrap: anywhere;
+}
+
+.skill-tags button {
+  cursor: pointer;
+}
+
+.skill-tags button:hover {
+  background-color: var(--hover-bg);
+}
+
+/* 展開中的故事入口，與目前所在站使用相同提示色。 */
+.skill-tags button[aria-expanded="true"] {
+  background-color: var(--selected-bg);
+  border-color: var(--accent-soft);
+  color: var(--accent);
+}
+
+.skill-tags button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* 閱讀區 */
+#journey-detail {
+  margin-top: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--border);
+  line-height: 1.8;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+#journey-detail h2 {
+  margin: 28px 0 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--text);
+}
+
+#journey-detail > h2:first-child {
+  margin-top: 0;
+}
+
+#journey-detail p {
+  margin: 0;
+}
+
+#journey-detail h2.is-highlighted {
+  width: fit-content;
+  max-width: 100%;
+  border-radius: 4px;
+  background-color: var(--selected-bg);
+  color: var(--accent);
+  box-shadow: -6px 0 0 var(--selected-bg), 6px 0 0 var(--selected-bg);
+}
+
+/* 首頁入口與共用頁尾 */
+.journey-link {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 12px 20px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.journey-link:hover {
+  background-color: var(--selected-bg);
+}
+
+.journey-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.site-footer {
+  margin-top: 64px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.site-footer p {
+  margin: 0 0 8px;
+  color: var(--muted);
+}
+
+.site-footer a {
+  color: var(--accent);
+  text-underline-offset: 4px;
+}
+
+/* 手機：單欄依時間排序，取消桌面位移 */
+@media (max-width: 600px) {
+  body { margin: 32px auto; }
+
+  .site-header {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  h1 { font-size: 36px; }
+
+  .journey-map {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "university" "trade" "equipment" "study";
+    gap: 24px;
+    padding: 24px 16px;
+  }
+
+  .map-node {
+    width: 100%;
+    min-height: 112px;
+    margin: 0;
+    justify-self: stretch;
+    font-size: 20px;
+  }
+
+  .map-node::before {
+    right: auto;
+    left: -14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-node { transition: none; }
+}
